@@ -8,6 +8,7 @@ const cors = require('cors');
 let { JWT_SECRET } = process.env;
 
 if (!JWT_SECRET) {
+  console.log(JWT_SECRET);
   if (process.env.NODE_ENV !== 'production') {
     JWT_SECRET = 'tempjwtsecretfordevonly';
     console.log('Missing env var JWT_SECRET. Using unsafe dev secret');
@@ -20,7 +21,7 @@ const routes = new Router();
 
 routes.use(bodyParser.json());
 
-const origin = process.env.UI_SERVER_ORIGIN || 'http://ui.promernstack:8000';
+const origin = process.env.UI_SERVER_ORIGIN || 'http://localhost:8000';
 routes.use(cors({ origin, credentials: true }));
 
 function getUser(req) {
@@ -63,7 +64,10 @@ routes.post('/signin', async (req, res) => {
   res.cookie('jwt', token, {
     httpOnly: true,
     domain: process.env.COOKIE_DOMAIN,
+    sameSite: 'none',
+    secure: true,
   });
+
   res.json(credentials);
 });
 
