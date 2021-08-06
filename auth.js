@@ -20,7 +20,7 @@ const routes = new Router();
 
 routes.use(bodyParser.json());
 
-const origin = process.env.UI_SERVER_ORIGIN || 'http://localhost:8000';
+const origin = process.env.UI_SERVER_ORIGIN || 'http://ui.promernstack:8000';
 routes.use(cors({ origin, credentials: true }));
 
 function getUser(req) {
